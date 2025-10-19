@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>نتیجه پرداخت - همگام پلاستیک</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Font Awesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Google Fonts (Vazirmatn) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Vazirmatn', sans-serif;
+      background-color: #0B1120;
+      color: #cbd5e1;
+    }
+    .glass-card {
+        background: rgba(30, 41, 59, 0.5);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(51, 65, 85, 0.5);
+        border-radius: 1rem;
+    }
+    .btn-primary {
+        background: linear-gradient(to right, #FBBF24, #F59E0B);
+        color: #1e2b3b;
+        font-weight: 700;
+        padding: 0.75rem 2.5rem;
+        border-radius: 9999px;
+        transition: all 0.3s ease;
+    }
+    .btn-primary:hover {
+        transform: scale(1.05);
+    }
+  </style>
+</head>
+<body class="bg-slate-900 flex items-center justify-center min-h-screen">
+
+  <main class="container mx-auto px-6 py-16 text-center">
+    <div id="result-container" class="glass-card max-w-lg mx-auto p-8 md:p-12">
+        <!-- Content will be injected by JavaScript -->
+    </div>
+  </main>
+  
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const API_BASE_URL = ''; // Use relative path
+    const resultContainer = document.getElementById('result-container');
+    const urlParams = new URLSearchParams(window.location.search);
+    const authority = urlParams.get('Authority');
+    const status = urlParams.get('Status');
+    const orderId = urlParams.get('orderId');
+
+    const showLoading = () => {
+        resultContainer.innerHTML = `
+            <div class="flex justify-center items-center mb-6">
+                <i class="fas fa-spinner fa-spin text-amber-400 text-5xl"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-white mb-2">در حال بررسی تراکنش...</h2>
+            <p class="text-slate-400">لطفاً چند لحظه منتظر بمانید.</p>
+        `;
+    };
+
+    const showSuccess = (refId, dbOrderId) => {
+        resultContainer.innerHTML = `
+            <div class="flex justify-center items-center mb-6">
+                <i class="fas fa-check-circle text-green-400 text-6xl"></i>
+            </div>
+            <h2 class="text-3xl font-bold text-white mb-2">پرداخت موفقیت‌آمیز بود</h2>
+            <p class="text-slate-400 mb-6">از خرید شما سپاسگزاریم. سفارش شما ثبت شد.</p>
+            <div class="bg-slate-800 rounded-lg p-4 text-center my-6">
+                <p class="text-sm text-slate-400">کد رهگیری پرداخت</p>
+                <p class="text-2xl font-mono font-bold text-amber-400 tracking-widest">${refId || 'N/A'}</p>
+            </div>
+            <a href="invoice.html?id=${dbOrderId}" class="btn-primary inline-block mt-4">مشاهده فاکتور</a>
+        `;
+    };
+
+    const showError = (message) => {
+         resultContainer.innerHTML = `
+            <div class="flex justify-center items-center mb-6">
+                <i class="fas fa-times-circle text-red-400 text-6xl"></i>
+            </div>
+            <h2 class="text-3xl font-bold text-white mb-2">پرداخت ناموفق بود</h2>
+            <p class="text-slate-400 mb-6">${message}</p>
+            <a href="cart.html" class="btn-primary inline-block mt-4">بازگشت به سبد خرید</a>
+        `;
+    };
+
+    const verifyPayment = async () => {
+        showLoading();
+
+        if (status !== 'OK') {
+            showError('تراکنش توسط شما لغو شد یا با خطا مواجه شد.');
+            return;
+        }
+
+        if (!authority || !orderId) {
+            showError('اطلاعات بازگشتی از درگاه پرداخت ناقص است.');
+            return;
+        }
+
+        try {
+            const response = await fetch(`${API_BASE_URL}/api/verify-payment`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ authority, orderId })
+            });
+            
+            const data = await response.json();
+
+            if (response.ok && data.success) {
+                showSuccess(data.order.paymentRefId, data.order._id);
+                localStorage.removeItem('shoppingCart');
+                localStorage.removeItem('shippingInfo');
+            } else {
+                showError(data.message || 'خطا در تایید تراکنش. لطفا با پشتیبانی تماس بگیرید.');
+            }
+
+        } catch (error) {
+            console.error('Verification Error:', error);
+            showError('خطا در ارتباط با سرور. لطفا اتصال اینترنت خود را بررسی کنید.');
+        }
+    };
+
+    verifyPayment();
+});
+</script>
+
+</body>
+</html>
+

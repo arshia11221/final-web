@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>جزئیات محصول - همگام پلاستیک</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com"></script>
+<!-- Font Awesome for Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<!-- Google Fonts (Vazirmatn) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+body {
+font-family: 'Vazirmatn', sans-serif;
+background-color: #0B1120;
+color: #cbd5e1;
+}
+.glass-card {
+background: rgba(30, 41, 59, 0.5);
+backdrop-filter: blur(12px);
+border: 1px solid rgba(51, 65, 85, 0.5);
+border-radius: 1rem;
+}
+.btn-primary {
+background: linear-gradient(to right, #FBBF24, #F59E0B);
+color: #1e2b3b;
+font-weight: 700;
+padding: 0.75rem 2.5rem;
+border-radius: 9999px;
+transition: all 0.3s ease;
+}
+.btn-primary:hover:not(:disabled) {
+transform: scale(1.05);
+}
+.btn-primary:disabled {
+opacity: 0.5;
+cursor: not-allowed;
+}
+/* --- Mobile Menu Fixes --- */
+body.menu-open { overflow: hidden; }
+body.menu-open #mobile-menu { opacity: 1; pointer-events: auto; }
+body.menu-open #logo-link, body.menu-open #cart-link, body.menu-open #user-display { opacity: 0; pointer-events: none; }
+#logo-link, #cart-link, #user-display { transition: opacity 0.3s ease-in-out; }
+body.menu-open #mobile-toggle .fa-bars { display: none; }
+body.menu-open #mobile-toggle .fa-times { display: block; }
+.cart-notification {
+position: fixed; bottom: 20px; left: 20px; z-index: 100;
+background-color: #1e293b; color: white; padding: 1rem 1.5rem;
+border-radius: 0.5rem; display: flex; align-items: center; gap: 0.75rem;
+box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.5);
+transform: translateY(200%); opacity: 0;
+transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+.cart-notification.show {
+transform: translateY(0); opacity: 1;
+}
+.thumbnail.active {
+border-color: #FBBF24;
+}
+</style>
+</head>
+<body class="bg-slate-900">
+
+<!-- Header -->
+<header id="main-header" class="sticky top-0 left-0 right-0 z-30 transition-all duration-300 bg-slate-900/80 backdrop-blur-lg shadow-lg py-3">
+<nav class="container mx-auto px-4 sm:px-6 flex justify-between items-center">
+<a href="index.html" id="logo-link" class="w-24 sm:w-28 md:w-32 transition-opacity duration-300">
+<img id="logo-img" src="image/IMG_9482-removebg-preview.png" alt="لوگو شرکت">
+</a>
+<ul class="hidden lg:flex items-center space-x-8 space-x-reverse text-slate-200 font-semibold">
+<li><a href="index.html" class="hover:text-amber-300 transition-colors">خانه</a></li>
+<li><a href="products.html" class="hover:text-amber-300 transition-colors text-amber-300 font-bold">محصولات</a></li>
+<li><a href="index.html#about" class="hover:text-amber-300 transition-colors">درباره ما</a></li>
+<li><a href="index.html#technology" class="hover:text-amber-300 transition-colors">تکنولوژی</a></li>
+<li><a href="index.html#contact" class="hover:text-amber-300 transition-colors">تماس با ما</a></li>
+</ul>
+<!-- ✅ FIX STARTS HERE -->
+<div class="flex items-center space-x-4 lg:space-x-6 space-x-reverse">
+<a href="cart.html" id="cart-link" class="text-white text-xl hover:text-amber-300 transition-colors relative">
+<i class="fas fa-shopping-cart"></i>
+<span id="cart-counter" class="absolute -top-2 -right-3 bg-yellow-400 text-slate-900 text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold" style="display: none;">0</span>
+</a>
+<div id="user-display">
+<a href="login.html" id="login-btn" class="btn-primary !py-1.5 !px-4 sm:!py-2 sm:!px-6 text-sm">ورود</a>
+</div>
+<button id="mobile-toggle" class="lg:hidden text-white text-2xl z-50">
+<i class="fas fa-bars block"></i>
+<i class="fas fa-times hidden"></i>
+</button>
+</div>
+<!-- ✅ FIX ENDS HERE -->
+</nav>
+</header>
+<!-- Mobile Menu -->
+<div id="mobile-menu" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-40 p-8 text-white text-center transition-opacity duration-300 ease-in-out opacity-0">
+<button id="mobile-close" class="absolute top-6 right-6 text-3xl">&times;</button>
+<ul class="flex flex-col space-y-8 mt-24 text-2xl">
+<li><a href="index.html" class="mobile-link">خانه</a></li>
+<li><a href="products.html" class="mobile-link">محصولات</a></li>
+<li><a href="index.html#about" class="mobile-link">درباره ما</a></li>
+<li><a href="index.html#technology" class="mobile-link">تکنولوژی</a></li>
+<li><a href="index.html#contact" class="mobile-link">تماس با ما</a></li>
+</ul>
+</div>
+
+<main>
+<div class="container mx-auto px-6 py-16">
+<div class="grid lg:grid-cols-2 gap-12 items-start">
+<!-- Product Gallery -->
+<div class="space-y-4 lg:sticky lg:top-28">
+<div class="bg-slate-800/50 border border-slate-700 rounded-lg p-4 flex items-center justify-center aspect-square">
+<img id="main-image" src="https://placehold.co/600x600/0B1120/475569?text=Loading..." alt="تصویر اصلی محصول" class="max-w-full max-h-full object-contain transition-transform duration-300">
+</div>
+</div>
+
+<!-- Product Info -->
+<div class="glass-card p-8">
+<div class="mb-4">
+<a href="products.html" class="text-sm text-slate-400 hover:text-amber-300 transition-colors">بازگشت به محصولات</a>
+<p id="product-category" class="text-amber-400 font-semibold"></p>
+</div>
+<h1 id="product-name" class="text-4xl font-black text-white mb-4">...</h1>
+<div class="flex items-center justify-between mb-6">
+<div id="product-rating" class="text-amber-400 text-lg"></div>
+<div id="product-stock" class="text-xs font-bold px-2 py-0.5 rounded"></div>
+</div>
+
+<div class="border-t border-b border-slate-700 py-6 my-6">
+<p id="product-description" class="text-slate-300 leading-relaxed"></p>
+</div>
+
+<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
+<div class="flex items-center gap-2 bg-slate-700/50 rounded-full p-2 self-start sm:self-center">
+<button id="quantity-minus" class="w-10 h-10 rounded-full hover:bg-slate-600 transition-colors text-xl">-</button>
+<input id="quantity-input" type="number" value="1" min="1" class="w-16 bg-transparent text-center font-bold text-white text-lg focus:outline-none">
+<button id="quantity-plus" class="w-10 h-10 rounded-full hover:bg-slate-600 transition-colors text-xl">+</button>
+</div>
+<div>
+<p class="text-sm text-slate-400">قیمت نهایی</p>
+<p id="product-price" class="text-3xl font-bold text-white"></p>
+</div>
+</div>
+
+<div class="mt-8">
+<button id="add-to-cart-btn" class="btn-primary w-full text-center text-lg !py-3">
+<i class="fas fa-shopping-cart ml-2"></i>
+افزودن به سبد خرید
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<footer id="contact" class="bg-slate-900 border-t border-slate-800 text-slate-400">
+<!-- Footer content -->
+</footer>
+
+<!-- Cart Notification -->
+<div id="cart-notification" class="cart-notification">
+<i class="fas fa-check-circle text-green-400 text-xl"></i>
+<span>محصول به سبد خرید اضافه شد!</span>
+</div>
+
+<script src="myjs.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+// --- Use global App object
+const cart = window.App.cart;
+// --- Page Initialization ---
+const urlParams = new URLSearchParams(window.location.search);
+const product = {
+id: urlParams.get('id'),
+name: urlParams.get('name'),
+price: parseFloat(urlParams.get('price')),
+category: urlParams.get('category'),
+image: urlParams.get('image'),
+rating: parseFloat(urlParams.get('rating')),
+stock: urlParams.get('stock') !== 'false',
+description: urlParams.get('description') || "این قطعه با استفاده از بهترین مواد اولیه پلیمری و با دقت بالا طبق استانداردهای خودروسازی تولید شده است تا بالاترین عملکرد و دوام را برای خودروی شما به ارمغان بیاورد."
+};
+
+if (!product.id) {
+document.querySelector('main').innerHTML = '<p class="text-center text-2xl py-20">محصولی برای نمایش انتخاب نشده است.</p>';
+return;
+}
+// --- Populate Page with Product Data ---
+document.title = `${product.name} - همگام پلاستیک`;
+document.getElementById('product-category').textContent = product.category;
+document.getElementById('product-name').textContent = product.name;
+document.getElementById('main-image').src = product.image;
+document.getElementById('product-price').textContent = product.price.toLocaleString('fa-IR') + ' تومان';
+document.getElementById('product-description').textContent = product.description;
+const ratingEl = document.getElementById('product-rating');
+ratingEl.innerHTML = Array(5).fill(0).map((_, i) => {
+if (i < Math.floor(product.rating)) return '<i class="fas fa-star"></i>';
+if (i < product.rating) return '<i class="fas fa-star-half-alt"></i>';
+return '<i class="far fa-star"></i>';
+}).join('');
+
+const stockEl = document.getElementById('product-stock');
+if (product.stock) {
+stockEl.textContent = 'موجود در انبار';
+stockEl.className = 'text-xs font-bold px-2 py-0.5 rounded bg-green-500/10 text-green-400';
+} else {
+stockEl.textContent = 'ناموجود';
+stockEl.className = 'text-xs font-bold px-2 py-0.5 rounded bg-red-500/10 text-red-400';
+document.getElementById('add-to-cart-btn').disabled = true;
+}
+
+// --- Interactive Elements ---
+const quantityInput = document.getElementById('quantity-input');
+document.getElementById('quantity-plus').addEventListener('click', () => quantityInput.value++);
+document.getElementById('quantity-minus').addEventListener('click', () => {
+if (quantityInput.value > 1) quantityInput.value--;
+});
+document.getElementById('add-to-cart-btn').addEventListener('click', () => {
+const quantity = parseInt(quantityInput.value);
+cart.add(product, quantity);
+});
+});
+</script>
+
+</body>
+</html>

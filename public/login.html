@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ورود / ثبت‌نام - همگام پلاستیک</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Font Awesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Google Fonts (Vazirmatn) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Vazirmatn', sans-serif;
+    }
+    .video-bg {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        min-width: 100%;
+        min-height: 100%;
+        width: auto;
+        height: auto;
+        z-index: -1;
+        transform: translateX(-50%) translateY(-50%);
+        object-fit: cover;
+    }
+    .glass-card {
+        background: rgba(11, 17, 32, 0.7);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(51, 65, 85, 0.5);
+    }
+    .btn-primary {
+        background: linear-gradient(to right, #FBBF24, #F59E0B);
+        color: #1e2b3b;
+        font-weight: 700;
+        transition: all 0.3s ease;
+    }
+    .btn-primary:hover:not(:disabled) {
+        transform: scale(1.05);
+        box-shadow: 0 10px 15px -3px rgb(251 191 36 / 0.2);
+    }
+    .tab-btn.active {
+        color: #FBBF24;
+        border-color: #FBBF24;
+    }
+    .form-container {
+        transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+    }
+  </style>
+</head>
+<body class="bg-slate-900 flex items-center justify-center min-h-screen p-4">
+
+  <video autoplay loop muted playsinline class="video-bg">
+    <source src="https://assets.mixkit.co/videos/preview/mixkit-robotic-arm-working-in-a-factory-2228-large.mp4" type="video/mp4">
+  </video>
+  <div class="absolute inset-0 bg-black/50"></div>
+
+  <main class="relative z-10 w-full max-w-md">
+    <div class="glass-card rounded-2xl p-8">
+        <a href="index.html" class="mx-auto block w-32 mb-6">
+            <img src="image/IMG_9482-removebg-preview.png" alt="لوگو شرکت">
+        </a>
+
+        <!-- Tabs -->
+        <div class="flex border-b border-slate-700 mb-6">
+            <button id="login-tab-btn" class="tab-btn flex-1 py-3 text-lg font-bold text-slate-400 border-b-2 border-transparent transition-colors active">ورود</button>
+            <button id="register-tab-btn" class="tab-btn flex-1 py-3 text-lg font-bold text-slate-400 border-b-2 border-transparent transition-colors">ثبت‌نام</button>
+        </div>
+
+        <!-- Login Form -->
+        <form id="login-form" class="form-container space-y-6">
+            <div>
+                <label for="login-email" class="block text-sm font-medium text-slate-300 mb-2">ایمیل یا نام کاربری</label>
+                <input type="text" id="login-email" name="emailOrUsername" required class="w-full bg-slate-700/50 border border-slate-600 rounded-lg py-2.5 px-4 text-white placeholder-slate-400 focus:ring-amber-400 focus:border-amber-400">
+            </div>
+            <div>
+                <label for="login-password" class="block text-sm font-medium text-slate-300 mb-2">رمز عبور</label>
+                <input type="password" id="login-password" name="password" required class="w-full bg-slate-700/50 border border-slate-600 rounded-lg py-2.5 px-4 text-white placeholder-slate-400 focus:ring-amber-400 focus:border-amber-400">
+            </div>
+            <div id="login-error" class="text-red-400 text-sm text-center hidden"></div>
+            <div>
+                <button type="submit" class="w-full btn-primary rounded-lg py-3 text-lg">وارد شوید</button>
+            </div>
+        </form>
+
+        <!-- Register Form -->
+        <form id="register-form" class="form-container space-y-6 hidden opacity-0 transform translate-y-4">
+            <div>
+                <label for="register-username" class="block text-sm font-medium text-slate-300 mb-2">نام کاربری</label>
+                <input type="text" id="register-username" name="username" required class="w-full bg-slate-700/50 border border-slate-600 rounded-lg py-2.5 px-4 text-white placeholder-slate-400 focus:ring-amber-400 focus:border-amber-400">
+            </div>
+            <div>
+                <label for="register-email" class="block text-sm font-medium text-slate-300 mb-2">ایمیل</label>
+                <input type="email" id="register-email" name="email" required class="w-full bg-slate-700/50 border border-slate-600 rounded-lg py-2.5 px-4 text-white placeholder-slate-400 focus:ring-amber-400 focus:border-amber-400">
+            </div>
+            <div>
+                <label for="register-password" class="block text-sm font-medium text-slate-300 mb-2">رمز عبور</label>
+                <input type="password" id="register-password" name="password" required class="w-full bg-slate-700/50 border border-slate-600 rounded-lg py-2.5 px-4 text-white placeholder-slate-400 focus:ring-amber-400 focus:border-amber-400">
+            </div>
+            <div id="register-message" class="text-sm text-center hidden"></div>
+            <div>
+                <button type="submit" class="w-full btn-primary rounded-lg py-3 text-lg">ایجاد حساب</button>
+            </div>
+        </form>
+    </div>
+  </main>
+  
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const API_BASE_URL = ''; // Relative path
+    const loginForm = document.getElementById('login-form');
+    const registerForm = document.getElementById('register-form');
+    const loginTabBtn = document.getElementById('login-tab-btn');
+    const registerTabBtn = document.getElementById('register-tab-btn');
+    const loginError = document.getElementById('login-error');
+    const registerMessage = document.getElementById('register-message');
+
+    // Tab switching logic
+    function switchTab(activeTab) {
+        if (activeTab === 'login') {
+            loginTabBtn.classList.add('active');
+            registerTabBtn.classList.remove('active');
+            
+            registerForm.classList.add('opacity-0', 'translate-y-4');
+            setTimeout(() => {
+                registerForm.classList.add('hidden');
+                loginForm.classList.remove('hidden');
+                setTimeout(() => {
+                    loginForm.classList.remove('opacity-0', 'translate-y-4');
+                }, 10);
+            }, 300);
+
+        } else {
+            registerTabBtn.classList.add('active');
+            loginTabBtn.classList.remove('active');
+
+            loginForm.classList.add('opacity-0', 'translate-y-4');
+            setTimeout(() => {
+                loginForm.classList.add('hidden');
+                registerForm.classList.remove('hidden');
+                 setTimeout(() => {
+                    registerForm.classList.remove('opacity-0', 'translate-y-4');
+                }, 10);
+            }, 300);
+        }
+    }
+
+    loginTabBtn.addEventListener('click', () => switchTab('login'));
+    registerTabBtn.addEventListener('click', () => switchTab('register'));
+
+    // Login form submission
+    loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        loginError.classList.add('hidden');
+        const formData = new FormData(loginForm);
+        const data = Object.fromEntries(formData.entries());
+
+        try {
+            const response = await fetch(`${API_BASE_URL}/api/login`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            const result = await response.json();
+            if (response.ok) {
+                localStorage.setItem('auth-token', result.token);
+                localStorage.setItem('username', result.user.username);
+                window.location.href = 'index.html';
+            } else {
+                loginError.textContent = result.error || result.message || 'خطایی رخ داد.';
+                loginError.classList.remove('hidden');
+            }
+        } catch (error) {
+            loginError.textContent = 'خطای شبکه. لطفا اتصال خود را بررسی کنید.';
+            loginError.classList.remove('hidden');
+        }
+    });
+
+    // Register form submission
+    registerForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        registerMessage.classList.add('hidden');
+        const formData = new FormData(registerForm);
+        const data = Object.fromEntries(formData.entries());
+
+        try {
+            const response = await fetch(`${API_BASE_URL}/api/register`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            const result = await response.json();
+            
+            registerMessage.classList.remove('hidden');
+            if (response.ok) {
+                registerMessage.textContent = 'ثبت‌نام موفقیت‌آمیز بود! اکنون می‌توانید وارد شوید.';
+                registerMessage.classList.remove('text-red-400');
+                registerMessage.classList.add('text-green-400');
+                setTimeout(() => switchTab('login'), 2000);
+            } else {
+                registerMessage.textContent = result.message || 'خطا در ثبت‌نام.';
+                registerMessage.classList.remove('text-green-400');
+                registerMessage.classList.add('text-red-400');
+            }
+        } catch (error) {
+            registerMessage.textContent = 'خطای شبکه. لطفا اتصال خود را بررسی کنید.';
+            registerMessage.classList.remove('text-green-400');
+            registerMessage.classList.add('text-red-400');
+            registerMessage.classList.remove('hidden');
+        }
+    });
+});
+</script>
+
+</body>
+</html>

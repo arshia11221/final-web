@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+    <meta name="enamad" content="۶۴۴۷۸۶۴۸"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>همگام پلاستیک - مهندسی آینده صنعت پلیمر</title>
+  <meta name="description" content="همگام پلاستیک | راهکارهای نوآورانه در طراحی و تولید قطعات پلیمری پیشرفته برای صنعت خودروسازی." />
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- SwiperJS for Sliders -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+  <!-- Font Awesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Google Fonts (Vazirmatn) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <!-- GSAP Animation Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+  <!-- Vanilla Tilt JS for 3D Hover Effect -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
+
+  <style>
+    body {
+      font-family: 'Vazirmatn', sans-serif;
+      background-color: #0B1120; /* Dark Blue Background */
+      color: #cbd5e1; /* Slate 300 */
+      scroll-behavior: smooth;
+    }
+    .section-title {
+        font-weight: 800;
+        color: #f1f5f9; /* Slate 100 */
+    }
+    .gradient-text {
+        background: linear-gradient(to right, #FDE047, #FBBF24);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    .glass-card {
+        background: rgba(30, 41, 59, 0.5);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(51, 65, 85, 0.5);
+        border-radius: 1rem;
+        transform-style: preserve-3d;
+    }
+    .swiper-pagination-bullet {
+        background: #94a3b8 !important; /* Slate 400 */
+    }
+    .swiper-pagination-bullet-active {
+        background: #FBBF24 !important; /* Amber 400 */
+    }
+    .btn-primary {
+        background: linear-gradient(to right, #FBBF24, #F59E0B);
+        color: #1e293b;
+        font-weight: 700;
+        padding: 0.75rem 2.5rem;
+        border-radius: 9999px;
+        transition: all 0.3s ease;
+        transform: perspective(1px) translateZ(0);
+        box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    }
+    .btn-primary:hover {
+        transform: scale(1.05);
+        box-shadow: 0 10px 15px -3px rgb(251 191 36 / 0.2), 0 4px 6px -4px rgb(251 191 36 / 0.2);
+    }
+    /* GSAP initial state */
+    .gsap-reveal {
+      opacity: 0;
+      transform: translateY(60px);
+    }
+    .hero-swiper-slide {
+        position: relative;
+        overflow: hidden;
+    }
+    .hero-swiper-slide .slide-bg {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transform: scale(1.1);
+        transition: transform 8s ease-out;
+    }
+    .swiper-slide-active .slide-bg {
+        transform: scale(1);
+    }
+    .cart-notification {
+        position: fixed; bottom: 20px; left: 20px; z-index: 100;
+        background-color: #1e293b; color: white; padding: 1rem 1.5rem;
+        border-radius: 0.5rem; display: flex; align-items: center; gap: 0.75rem;
+        box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.5);
+        transform: translateY(200%); opacity: 0;
+        transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .cart-notification.show {
+        transform: translateY(0); opacity: 1;
+    }
+    .faq-item .faq-answer {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.5s ease-in-out, padding 0.5s ease-in-out;
+    }
+    .faq-item.active .faq-answer {
+        max-height: 200px; /* Adjust if answers are longer */
+        padding-top: 1rem;
+    }
+    .faq-item.active .faq-icon {
+        transform: rotate(180deg);
+    }
+/* --- Mobile Menu Fixes --- */
+body.menu-open {
+    overflow: hidden; /* Lock page scroll when menu is open */
+}
+/* Show/Hide menu */
+body.menu-open #mobile-menu {
+    opacity: 1;
+    pointer-events: auto; /* Make menu clickable */
+}
+/* Animate header items */
+body.menu-open #logo-link,
+body.menu-open #cart-link,
+body.menu-open #user-display {
+    opacity: 0;
+    pointer-events: none;
+}
+#logo-link, #cart-link, #user-display {
+    transition: opacity 0.3s ease-in-out;
+}
+/* Switch between hamburger and close icon */
+body.menu-open #mobile-toggle .fa-bars {
+    display: none;
+}
+body.menu-open #mobile-toggle .fa-times {
+    display: block;
+}
+  </style>
+</head>
+<body class="bg-slate-900">
+
+  <!-- Header -->
+  <header id="main-header" class="fixed top-0 left-0 right-0 z-30 transition-all duration-300 py-4">
+   <nav class="container mx-auto px-4 sm:px-6 flex justify-between items-center">
+    <a href="index.html" id="logo-link" class="w-24 sm:w-28 md:w-32 transition-opacity duration-300">
+      <img id="logo-img" src="image/IMG_9482-removebg-preview.png" alt="لوگو شرکت">
+    </a>
+    <ul class="hidden lg:flex items-center space-x-8 space-x-reverse text-slate-200 font-semibold">
+        <li><a href="#hero" class="hover:text-amber-300 transition-colors">خانه</a></li>
+        <li><a href="products.html" class="hover:text-amber-300 transition-colors">محصولات</a></li>
+        <li><a href="#why-us" class="hover:text-amber-300 transition-colors">درباره ما</a></li>
+        <li><a href="#technology" class="hover:text-amber-300 transition-colors">تکنولوژی</a></li>
+        <li><a href="#contact" class="hover:text-amber-300 transition-colors">تماس با ما</a></li>
+    </ul>
+    <div class="flex items-center space-x-4 lg:space-x-6 space-x-reverse">
+        <a href="cart.html" id="cart-link" class="text-white text-xl hover:text-amber-300 transition-colors relative">
+          <i class="fas fa-shopping-cart"></i>
+          <span id="cart-counter" class="absolute -top-2 -right-3 bg-yellow-400 text-slate-900 text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold" style="display: none;">0</span>
+        </a>
+        <div id="user-display">
+            <a href="login.html" id="login-btn" class="btn-primary !py-1.5 !px-4 sm:!py-2 sm:!px-6 text-sm">ورود</a>
+        </div>
+<button id="mobile-toggle" class="lg:hidden text-white text-2xl z-50">
+  <i class="fas fa-bars block"></i>
+  <i class="fas fa-times hidden"></i>
+</button>
+    </div>
+  </nav>
+</header>
+  
+  <!-- Mobile Menu -->
+   <div id="mobile-menu" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-40 p-8 text-white text-center transition-opacity duration-300 ease-in-out opacity-0">
+    <button id="mobile-close" class="absolute top-6 right-6 text-3xl">&times;</button>
+    <ul class="flex flex-col space-y-8 mt-24 text-2xl">
+        <li><a href="#hero" class="mobile-link">خانه</a></li>
+        <li><a href="products.html" class="mobile-link">محصولات</a></li>
+        <li><a href="#why-us" class="mobile-link">درباره ما</a></li>
+        <li><a href="#technology" class="mobile-link">تکنولوژی</a></li>
+        <li><a href="#contact" class="mobile-link">تماس با ما</a></li>
+    </ul>
+</div>
+
+  <main>
+    <!-- Hero Section -->
+    <section id="hero" class="relative h-[90vh] sm:h-screen text-white overflow-hidden">
+    <div class="swiper hero-slider h-full">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide hero-swiper-slide">
+                <img src="image/IMG_9963.JPG" class="slide-bg object-cover object-bottom" alt="خط تولید پیشرفته">
+                <div class="absolute inset-0 bg-black opacity-75"></div>
+                <div class="relative z-10 flex items-center justify-center h-full text-center px-6">
+                    <div>
+                        <h1 class="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-black leading-tight mb-4 gsap-hero-title">
+                            مهندسی آینده صنعت خودرو
+                        </h1>
+                        <p class="text-base sm:text-lg md:text-xl text-slate-200 mb-8 max-w-3xl mx-auto gsap-hero-subtitle">
+                            با تکیه بر نوآوری و استاندارد‌های جهانی، راهکارهای پلیمری هوشمند برای نسل جدید خودروها ارائه می‌دهیم.
+                        </p>
+                        <div class="gsap-hero-cta"><a href="products.html" class="btn-primary">ورود به دنیای قطعات</a></div>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-slide hero-swiper-slide">
+                <img src="image/Gemini_Generated_Image_n1rfp8n1rfp8n1rf.png" class="slide-bg object-cover object-center" alt="تضمین کیفیت قطعات">
+                <div class="absolute inset-0 bg-black opacity-75"></div>
+                <div class="relative z-10 flex items-center justify-center h-full text-center px-6">
+                    <div>
+                        <h1 class="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-black leading-tight mb-4">
+                            <span class="gradient-text">کیفیت</span>، <span class="gradient-text">دقت</span> و <span class="gradient-text">نوآوری</span>
+                        </h1>
+                        <p class="text-base sm:text-lg md:text-xl text-slate-200 mb-8 max-w-3xl mx-auto">
+                            شریک استراتژیک شما در مسیر تولید با استاندارد جهانی IATF 16949.
+                        </p>
+                        <div><a href="#why-us" class="btn-primary">بیشتر بدانید</a></div>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-slide hero-swiper-slide">
+                <img src="image/Screenshot 2025-10-09 at 5.08.51 PM.png" class="slide-bg object-cover object-top" alt="تکنولوژی و نوآوری">
+                <div class="absolute inset-0 bg-black opacity-75"></div>
+                <div class="relative z-10 flex items-center justify-center h-full text-center px-6">
+                    <div>
+                        <h1 class="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-black leading-tight mb-4">
+                            تکنولوژی در خدمت تولید
+                        </h1>
+                        <p class="text-base sm:text-lg md:text-xl text-slate-200 mb-8 max-w-3xl mx-auto">
+                            با بهره‌گیری از مدرن‌ترین ماشین‌آلات تزریق پلاستیک و سیستم‌های رباتیک.
+                        </p>
+                        <div><a href="#technology" class="btn-primary">کاوش در تکنولوژی</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="swiper-pagination"></div>
+    </div>
+</section>
+    
+    <!-- Partners Section -->
+    <section class="py-16 bg-slate-800">
+        <div class="container mx-auto px-6">
+            <h3 class="text-center text-slate-400 font-semibold mb-8">مورد اعتماد برترین شرکت‌های خودروسازی کشور</h3>
+            <div class="flex flex-wrap justify-center items-center gap-x-12 gap-y-6">
+                <img src="https://placehold.co/120x60/transparent/94a3b8?text=IKCO" alt="ایران خودرو" class="h-8 md:h-10 opacity-60 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-300">
+                <img src="https://placehold.co/120x60/transparent/94a3b8?text=SAIPA" alt="سایپا" class="h-8 md:h-10 opacity-60 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-300">
+                <img src="https://placehold.co/120x60/transparent/94a3b8?text=Pars+Khodro" alt="پارس خودرو" class="h-8 md:h-10 opacity-60 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-300">
+                <img src="https://placehold.co/120x60/transparent/94a3b8?text=Kerman+Motor" alt="کرمان موتور" class="h-8 md:h-10 opacity-60 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-300">
+                <img src="https://placehold.co/120x60/transparent/94a3b8?text=Bahman+Motor" alt="بهمن موتور" class="h-8 md:h-10 opacity-60 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-300">
+            </div>
+        </div>
+    </section>
+    
+    <!-- Why Choose Us Section -->
+    <section id="why-us" class="py-24">
+        <div class="container mx-auto px-6">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <div class="gsap-reveal">
+                    <h2 class="section-title text-4xl md:text-5xl mb-6">چرا همگام پلاستیک؟</h2>
+                    <p class="text-slate-400 text-lg leading-relaxed mb-8">ما فقط یک تولیدکننده نیستیم؛ ما شریک استراتژیک شما در مسیر موفقیت هستیم. با ترکیب تجربه، تکنولوژی و تعهد، ارزشی فراتر از یک قطعه پلاستیکی خلق می‌کنیم.</p>
+                    <div class="space-y-6">
+                        <div class="flex items-start space-x-4 space-x-reverse">
+                            <div class="flex-shrink-0 bg-slate-800 text-amber-400 rounded-lg w-12 h-12 flex items-center justify-center"><i class="fas fa-certificate text-2xl"></i></div>
+                            <div>
+                                <h4 class="font-bold text-xl text-slate-100">کیفیت در سطح جهانی</h4>
+                                <p class="text-slate-400">پایبندی کامل به استاندارد IATF 16949، تضمین‌کننده کیفیت و قابلیت اطمینان در هر محصول.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-4 space-x-reverse">
+                            <div class="flex-shrink-0 bg-slate-800 text-amber-400 rounded-lg w-12 h-12 flex items-center justify-center"><i class="fas fa-cogs text-2xl"></i></div>
+                            <div>
+                                <h4 class="font-bold text-xl text-slate-100">راهکارهای یکپارچه</h4>
+                                <p class="text-slate-400">از طراحی و مهندسی اولیه تا تولید انبوه و کنترل کیفیت نهایی، تمام مراحل در کنار شما هستیم.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="gsap-reveal" data-delay="0.2">
+                    <div class="grid grid-cols-2 gap-4">
+                        <img src="image/IMG_9933.JPG" class="rounded-lg shadow-lg w-full h-full object-cover aspect-square">
+                        <img src="image/IMG_9953.JPG" class="rounded-lg shadow-lg w-full h-full object-cover aspect-square mt-8">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="py-24 bg-slate-800">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+                <div class="gsap-reveal">
+                    <p class="text-5xl font-black gradient-text mb-2" data-counter="15">0</p>
+                    <h4 class="text-xl font-bold text-slate-300">سال تجربه</h4>
+                </div>
+                <div class="gsap-reveal" data-delay="0.1">
+                    <p class="text-5xl font-black gradient-text mb-2" data-counter="120">0</p>
+                    <h4 class="text-xl font-bold text-slate-300">پروژه موفق</h4>
+                </div>
+                <div class="gsap-reveal" data-delay="0.2">
+                    <p class="text-5xl font-black gradient-text mb-2" data-counter="30">0</p>
+                    <h4 class="text-xl font-bold text-slate-300">مشتری صنعتی</h4>
+                </div>
+                 <div class="gsap-reveal" data-delay="0.3">
+                    <p class="text-5xl font-black gradient-text mb-2" data-counter="99">0</p>
+                    <h4 class="text-xl font-bold text-slate-300">درصد رضایت</h4>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Products Section -->
+    <section class="py-24">
+      <div class="container mx-auto px-6">
+        <div class="text-center mb-16 gsap-reveal">
+          <h2 class="section-title text-4xl md:text-5xl">محصولات منتخب</h2>
+          <p class="text-slate-400 mt-4 max-w-2xl mx-auto text-lg">
+            نمونه‌ای از قطعات پرفروش که با بالاترین استاندارد کیفیت تولید می‌شوند.
+          </p>
+        </div>
+        <div class="swiper featured-products-slider">
+            <div class="swiper-wrapper" id="featured-products-wrapper">
+                <!-- Products will be injected here by JS -->
+            </div>
+            <div class="swiper-pagination mt-12 relative"></div>
+        </div>
+        <div class="text-center mt-16 gsap-reveal">
+             <a href="products.html" class="btn-primary">مشاهده تمام محصولات</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Technology Section -->
+    <section id="technology" class="py-24 bg-slate-800">
+       <div class="container mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
+            <div class="gsap-reveal">
+                <h2 class="section-title text-4xl md:text-5xl mb-6">تکنولوژی در خدمت کیفیت</h2>
+                <p class="text-slate-400 mb-8 text-lg leading-relaxed">
+                   ما با بهره‌گیری از مدرن‌ترین ماشین‌آلات تزریق پلاستیک و سیستم‌های رباتیک، دقت و تکرارپذیری در تولید را تضمین می‌کنیم. آزمایشگاه مجهز ما، با انجام تست‌های دقیق متریال و محصول، کیفیت هر قطعه را بر اساس استاندارد IATF 16949 تایید می‌کند.
+                </p>
+                <div class="grid grid-cols-2 gap-6">
+                    <div class="flex items-center space-x-3 space-x-reverse"><i class="fas fa-robot text-3xl text-amber-400"></i><span class="font-semibold text-slate-200">تولید تمام اتوماتیک</span></div>
+                    <div class="flex items-center space-x-3 space-x-reverse"><i class="fas fa-microscope text-3xl text-amber-400"></i><span class="font-semibold text-slate-200">آزمایشگاه کنترل کیفی</span></div>
+                    <div class="flex items-center space-x-3 space-x-reverse"><i class="fas fa-ruler-combined text-3xl text-amber-400"></i><span class="font-semibold text-slate-200">مهندسی دقیق قالب</span></div>
+                    <div class="flex items-center space-x-3 space-x-reverse"><i class="fas fa-certificate text-3xl text-amber-400"></i><span class="font-semibold text-slate-200">گواهی IATF 16949</span></div>
+                </div>
+            </div>
+            <div class="gsap-reveal" data-delay="0.2">
+                <img src="image/IMG_9963.JPG" class="rounded-xl shadow-2xl w-full">
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <section id="process" class="py-24">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16 gsap-reveal">
+                <h2 class="section-title text-4xl md:text-5xl">فرآیند تولید ما</h2>
+                <p class="text-slate-400 mt-4 max-w-2xl mx-auto text-lg">از ایده تا محصول نهایی، یک مسیر مهندسی شده برای تضمین کیفیت.</p>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+                <div class="gsap-reveal glass-card p-8">
+                    <div class="text-amber-400 text-5xl mb-4"><i class="fas fa-pencil-ruler"></i></div>
+                    <h3 class="text-xl font-bold text-white mb-2">۱. طراحی و مهندسی</h3>
+                    <p class="text-slate-400 text-sm">تحلیل نیاز مشتری و طراحی سه‌بعدی قطعه و قالب.</p>
+                </div>
+                <div class="gsap-reveal glass-card p-8" data-delay="0.1">
+                     <div class="text-amber-400 text-5xl mb-4"><i class="fas fa-industry"></i></div>
+                    <h3 class="text-xl font-bold text-white mb-2">۲. تزریق پلاستیک</h3>
+                    <p class="text-slate-400 text-sm">تولید انبوه با دستگاه‌های مدرن و تمام‌اتوماتیک.</p>
+                </div>
+                <div class="gsap-reveal glass-card p-8" data-delay="0.2">
+                     <div class="text-amber-400 text-5xl mb-4"><i class="fas fa-paint-brush"></i></div>
+                    <h3 class="text-xl font-bold text-white mb-2">۳. مونتاژ</h3>
+                    <p class="text-slate-400 text-sm">عملیات تکمیلی شامل مونتاژ قطعات و پوشش‌دهی.</p>
+                </div>
+                <div class="gsap-reveal glass-card p-8" data-delay="0.3">
+                     <div class="text-amber-400 text-5xl mb-4"><i class="fas fa-clipboard-check"></i></div>
+                    <h3 class="text-xl font-bold text-white mb-2">۴. کنترل کیفیت</h3>
+                    <p class="text-slate-400 text-sm">بازرسی دقیق ابعادی، ظاهری و عملکردی.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-24 bg-slate-800">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16 gsap-reveal">
+                <h2 class="section-title text-4xl md:text-5xl">سوالات متداول</h2>
+            </div>
+            <div class="max-w-3xl mx-auto space-y-4">
+                <div class="faq-item gsap-reveal glass-card overflow-hidden">
+                    <button class="faq-question w-full flex justify-between items-center text-right p-6 font-semibold text-lg text-slate-100">
+                        <span>چگونه می‌توانیم نمونه اولیه از قطعه مورد نظر خود را سفارش دهیم؟</span>
+                        <i class="fas fa-chevron-down faq-icon transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-answer px-6 pb-6 text-slate-400">
+                        <p>با تماس با واحد فروش یا از طریق فرم تماس در انتهای صفحه، می‌توانید درخواست خود را ثبت کنید. تیم فنی ما پس از بررسی طرح، پیشنهاد فنی و مالی را در اسرع وقت به شما ارائه خواهد داد.</p>
+                    </div>
+                </div>
+                <div class="faq-item gsap-reveal glass-card overflow-hidden" data-delay="0.1">
+                    <button class="faq-question w-full flex justify-between items-center text-right p-6 font-semibold text-lg text-slate-100">
+                        <span>آیا امکان تولید قطعات با رنگ‌های سفارشی وجود دارد؟</span>
+                        <i class="fas fa-chevron-down faq-icon transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-answer px-6 pb-6 text-slate-400">
+                        <p>بله، ما توانایی تولید قطعات در طیف گسترده‌ای از رنگ‌ها بر اساس کد رنگ ارائه شده توسط شما را داریم. همچنین امکان اعمال پوشش‌های خاص مانند رنگ‌آمیزی و آبکاری نیز وجود دارد.</p>
+                    </div>
+                </div>
+                 <div class="faq-item gsap-reveal glass-card overflow-hidden" data-delay="0.2">
+                    <button class="faq-question w-full flex justify-between items-center text-right p-6 font-semibold text-lg text-slate-100">
+                        <span>حداقل تیراژ برای ثبت سفارش تولید چقدر است؟</span>
+                        <i class="fas fa-chevron-down faq-icon transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-answer px-6 pb-6 text-slate-400">
+                        <p>حداقل تیراژ سفارش (MOQ) بسته به پیچیدگی قطعه، نوع مواد اولیه و ابعاد قالب متفاوت است. برای دریافت اطلاعات دقیق در مورد قطعه مورد نظر خود، لطفاً با واحد فروش ما تماس بگیرید.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="py-24">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16 gsap-reveal">
+                <h2 class="section-title text-4xl md:text-5xl">صدای مشتریان ما</h2>
+                 <p class="text-slate-400 mt-4 max-w-2xl mx-auto text-lg">
+                    نگاهی به برخی از نظرات خریداران و مصرف‌کنندگان عزیز.
+                </p>
+            </div>
+            <div class="swiper testimonials-slider gsap-reveal" data-delay="0.1">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide h-auto">
+                        <div class="glass-card p-8 h-full flex flex-col text-center">
+                            <div class="text-amber-400 text-2xl mb-4">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                            </div>
+                            <p class="text-slate-300 italic mb-6 flex-grow text-lg">"کیفیت خار رودری‌ها واقعا عالی بود، دقیقا مثل جنس فابریک کارخونه. ممنون از ارسال سریع."</p>
+                            <div class="mt-auto">
+                                <p class="font-bold text-slate-100 text-xl">علی از تهران</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide h-auto">
+                         <div class="glass-card p-8 h-full flex flex-col text-center">
+                            <div class="text-amber-400 text-2xl mb-4">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                            <p class="text-slate-300 italic mb-6 flex-grow text-lg">"برای ماشینم چند مدل بست سفارش دادم که همگی باکیفیت و با قیمت مناسب بودند. بسته‌بندی هم عالی بود."</p>
+                            <div class="mt-auto">
+                                <p class="font-bold text-slate-100 text-xl">سارا از اصفهان</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide h-auto">
+                         <div class="glass-card p-8 h-full flex flex-col text-center">
+                           <div class="text-amber-400 text-2xl mb-4">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+                            </div>
+                            <p class="text-slate-300 italic mb-6 flex-grow text-lg">"پشتیبانی تلفنی خیلی خوب راهنمایی کرد و محصول دقیقا همونی بود که میخواستم. حتما دوباره خرید میکنم."</p>
+                            <div class="mt-auto">
+                                <p class="font-bold text-slate-100 text-xl">محمد از شیراز</p>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="swiper-slide h-auto">
+                         <div class="glass-card p-8 h-full flex flex-col text-center">
+                           <div class="text-amber-400 text-2xl mb-4">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                            <p class="text-slate-300 italic mb-6 flex-grow text-lg">"بعد از کلی گشتن، بالاخره قطعه‌ای که لازم داشتم رو اینجا پیدا کردم. از کیفیت و اصالت کالا کاملا راضی هستم."</p>
+                            <div class="mt-auto">
+                                <p class="font-bold text-slate-100 text-xl">رضا از تبریز</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-pagination mt-12 relative"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-24">
+        <div class="container mx-auto px-6 text-center">
+            <div class="gsap-reveal max-w-4xl mx-auto">
+                <h2 class="section-title text-4xl md:text-5xl mb-4">آماده‌اید پروژه بعدی خود را آغاز کنید؟</h2>
+                <p class="text-slate-400 text-lg max-w-3xl mx-auto mb-8">
+                    تیم فنی و مهندسی ما آماده همکاری و ارائه مشاوره تخصصی برای تولید قطعات مورد نیاز شماست. با ما تماس بگیرید و کیفیتی متمایز را تجربه کنید.
+                </p>
+                <a href="#contact" class="btn-primary">درخواست مشاوره و تماس</a>
+            </div>
+        </div>
+    </section>
+  </main>
+  
+  <!-- Footer -->
+  <footer id="contact" class="bg-slate-900 border-t border-slate-800 text-slate-400">
+       <div class="container mx-auto px-6 py-12">
+          <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-10">
+              <div class="md:col-span-2 lg:col-span-1">
+                  <img src="image/IMG_9482-removebg-preview.png" class="w-32 mb-4" alt="لوگو شرکت">
+                  <p class="text-sm">پیشرو در صنعت تولید قطعات پلیمری خودرو با تعهد به کیفیت و نوآوری.</p>
+              </div>
+               <div>
+                  <h4 class="text-lg font-semibold text-white mb-4">دسترسی سریع</h4>
+                  <ul class="space-y-2">
+                    <li><a href="#about" class="hover:text-amber-300">درباره ما</a></li>
+                    <li><a href="products.html" class="hover:text-amber-300">محصولات</a></li>
+                    <li><a href="#technology" class="hover:text-amber-300">تکنولوژی</a></li>
+                  </ul>
+              </div>
+               <div>
+                  <h4 class="text-lg font-semibold text-white mb-4">اطلاعات تماس</h4>
+                  <ul class="space-y-3 text-sm">
+                    <li class="flex items-start"><i class="fas fa-map-marker-alt w-5 mt-1 text-amber-300"></i><span>مازندران، بابلسر، کیلومتر ۲ جاده دریاکنار، منطقه صنعتی اجاکسر</span></li>
+                    <li class="flex items-start"><i class="fas fa-phone w-5 mt-1 text-amber-300"></i><span>۰۹۱۱۳۱۴۹۴۰۴</span></li>
+                    <li class="flex items-start"><i class="fas fa-envelope w-5 mt-1 text-amber-300"></i><span>hamgam.p.parsian@gmail.com</span></li>
+                  </ul>
+              </div>
+               <div>
+                  <h4 class="text-lg font-semibold text-white mb-4">شبکه‌های اجتماعی</h4>
+                  <div class="flex space-x-4 space-x-reverse">
+                      <a href="#" class="text-2xl hover:text-amber-300"><i class="fab fa-instagram"></i></a>
+                      <a href="#" class="text-2xl hover:text-amber-300"><i class="fab fa-linkedin-in"></i></a>
+                  </div>
+              </div>
+          </div>
+          <div class="mt-12 border-t border-slate-800 pt-6 text-center text-slate-500 text-sm">
+               <!-- Enamad Logo -->
+              <div class="flex justify-center mb-4">
+                  <a referrerpolicy="origin" target="_blank" href="https://trustseal.enamad.ir/?id=658237&Code=SrmVFNDsEdEKGI0QwxeVyQRnH3NgDKK">
+                      <img referrerpolicy="origin" src="https://trustseal.enamad.ir/logo.aspx?id=658237&Code=SrmVFNDsEdEKGI0QwxeVyQRnH3NgDKK" alt="نماد اعتماد الکترونیکی" style="cursor:pointer; width: 120px;" id="SrmVFNDsEdEKGI0QwxeVyQRnH3NgDKK">
+                  </a>
+              </div>
+              <p>تمامی حقوق این وبسایت متعلق به شرکت همگام پلاستیک می‌باشد. © ۱۴۰۳</p>
+          </div>
+      </div>
+  </footer>
+  
+  <!-- Cart Notification -->
+  <div id="cart-notification" class="cart-notification">
+      <i class="fas fa-check-circle text-green-400 text-xl"></i>
+      <span>محصول به سبد خرید اضافه شد!</span>
+  </div>
+
+<script src="myjs.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // --- Product Data ---
+    const allProducts = [
+        { id: 'havakesh-nisan', name: "مجموعه هواکش موتور نیسان انژکتوری پلیمری", price: 397000, category: 'لوله', image: 'image/WhatsApp_Image_2025-09-02_at_10.26.49-removebg-preview.png', rating: 5, stock: true, description: "این مجموعه هواکش کامل، شامل لوله‌ها و اتصالات لازم برای سیستم تنفس موتور نیسان انژکتوری است. ساخته شده از پلیمر مقاوم به حرارت و فشار، که جایگزینی عالی برای قطعات فلزی قدیمی است و به بهبود جریان هوا کمک می‌کند." },
+        { id: 'loole-peikan', name: 'لوله خرطومی هواکش پیکان (آردی) لاستیکی', price: 99000, category: 'لوله', image: 'image/WhatsApp_Image_2025-08-31_at_08.49.42-removebg-preview.png', rating: 4, stock: true, description: "شیلنگ یا لوله خرطومی هواکش پیکان یکی از قطعات مهم در سیستم تهویه و تنفس موتور خودرو پیکان است. این لوله از جنس لاستیک انعطاف‌پذیر ساخته شده و هوای تمیز را از فیلتر به موتور منتقل می‌کند، از نوسانات هوا جلوگیری کرده و صدای مکش را کاهش می‌دهد." },
+        { id: 'clip-ayegh-shahin', name: 'کلیپ عایق درب موتور شاهین (بسته ۱۰ عددی)', price: 59000, category: 'خار', image: 'image/Gemini_Generated_Image_32k0sj32k0sj32k0-removebg-preview.png', rating: 4.5, stock: true, description: "خار یا بست نمد کاپوت، یک گیره پلاستیکی مقاوم به حرارت است که نمد (عایق صوتی-حرارتی) را به صورت محکم به بدنه داخلی کاپوت متصل می‌کند. این کار از لرزش و صدای اضافی نمد جلوگیری کرده و آن را در جای خود ثابت نگه می‌دارد. تعویض خارهای شکسته یا فرسوده برای حفظ کارایی عایق ضروری است." },
+        { id: 'khar-shahin', name: 'خار رودری فوم‌دار شاهین (بسته ۱۰ عددی)', price: 39000, category: 'خار', image: 'image/IMG_9230-removebg-preview.png', rating: 5, stock: true, description: "خار رودری فوم‌دار شاهین یک قطعه پلاستیکی کوچک است که برای اتصال و تثبیت رودری (تودری) به بدنه استفاده می‌شود. این خارها با داشتن فوم داخلی، علاوه بر ایجاد اتصال محکم، به کاهش صداهای مزاحم و جلوگیری از لرزش‌های اضافی درب کمک می‌کنند. نصب صحیح این خارها باعث می‌شود رودری به‌طور محکم و بدون لرزش روی درب قرار گیرد." },
+        { id: 'bast-radiator-pride', name: 'براکت (بست نگهدارنده) بالا رادیاتور پراید', price: 39000, category: 'نگهدارنده', image: 'image/IMG_9229-removebg-preview.png', rating: 4.5, stock: true, description: "براکت نگهدارنده رادیاتور پراید یک قطعه کوچک ولی حیاتی است که وظیفه نگه داشتن رادیاتور در جای خودش را دارد. این قطعه از لرزش بیش از حد رادیاتور جلوگیری کرده و به عملکرد صحیح سیستم خنک‌کاری موتور کمک می‌کند. خرید براکت باکیفیت باعث افزایش عمر رادیاتور و جلوگیری از خرابی‌های بزرگ‌تر می‌شود." },
+        { id: 'khar-shishe-shoor', name: "خار نگهدارنده شیلنگ شیشه شور (بسته ۴ عددی)", price: 24000, category: 'خار', image: 'image/WhatsApp Image 2025-08-31 at 10.03.02.png', rating: 4.5, stock: true, description: "این خار پلاستیکی کوچک برای ثابت نگه داشتن شیلنگ شیشه‌شور در بدنه خودرو طراحی شده است. این خارها در مسیر شیلنگ، معمولاً زیر سینی جلو یا اطراف موتور نصب می‌شوند و از حرکت یا آسیب دیدن شیلنگ جلوگیری می‌کنند. مناسب برای خودروهایی مانند پراید و تیبا." },
+        { id: 'loole-havakesh-jac', name: 'لوله هواکش متصل به دیاق جلو JAC J4', price: 270000, category: 'لوله', image: 'image/IMG_9228-removebg-preview.png', rating: 5, stock: true, description: "این لوله پلاستیکی با طراحی خمیده، هوا را از جلو (معمولاً نزدیک سپر) به درون سیستم هوادهی موتور هدایت می‌کند. نقش اصلی آن تأمین هوای تازه و خنک برای بهبود عملکرد موتور و جلوگیری از ورود آب و گردوغبار به مسیر هوا است." },
+        { id: 'dastgire-pride-felezi', name: "دستگیره داخلی پراید (زبانه فلزی) مشکی", price: 45000, category: 'دستگیره', image: 'image/Screenshot 2025-10-08 at 2.47.33 PM.png', rating: 4, stock: true, description: "این دستگیره با زبانه فلزی، دوام و مقاومت بالایی در برابر شکستگی دارد و جایگزینی مطمئن برای دستگیره‌های فرسوده یا شکسته درب پراید است." },
+    ];
+
+    // Use global App object from myjs.js
+    const cart = window.App.cart;
+
+    // --- GSAP Animations ---
+    gsap.registerPlugin(ScrollTrigger);
+    gsap.from(".gsap-hero-title", { opacity: 0, y: -50, duration: 1, delay: 0.5 });
+    gsap.from(".gsap-hero-subtitle", { opacity: 0, y: 50, duration: 1, delay: 0.8 });
+    gsap.from(".gsap-hero-cta", { opacity: 0, scale: 0.8, duration: 1, delay: 1.1 });
+    const revealElements = document.querySelectorAll(".gsap-reveal");
+    revealElements.forEach(el => {
+        gsap.fromTo(el, { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 1, ease: "power2.out", delay: el.dataset.delay || 0, scrollTrigger: { trigger: el, start: "top 85%", toggleActions: "play none none none" } });
+    });
+    document.querySelectorAll('[data-counter]').forEach(counter => {
+      gsap.to(counter, { innerText: counter.dataset.counter, duration: 2, snap: "innerText", ease: "power1.out", scrollTrigger: { trigger: counter, start: "top 90%" } });
+    });
+
+    // --- Sliders ---
+    new Swiper('.hero-slider', { loop: true, effect: 'fade', fadeEffect: { crossFade: true }, autoplay: { delay: 5000, disableOnInteraction: false }, pagination: { el: '.swiper-pagination', clickable: true } });
+    
+    new Swiper('.testimonials-slider', { 
+        loop: true, 
+        slidesPerView: 1, 
+        spaceBetween: 20, 
+        autoplay: { delay: 4000, disableOnInteraction: false }, 
+        pagination: { el: '.swiper-pagination', clickable: true }, 
+        breakpoints: { 640: { slidesPerView: 2, spaceBetween: 30 }, 1024: { slidesPerView: 3, spaceBetween: 30 } } 
+    });
+
+    // --- Featured Products Slider Logic ---
+    function initFeaturedProductsSlider() {
+        const wrapper = document.getElementById('featured-products-wrapper');
+        if (!wrapper) return;
+
+        allProducts.forEach(product => {
+            const ratingStars = Array(5).fill(0).map((_, i) => i < Math.floor(product.rating) ? '<i class="fas fa-star text-amber-400"></i>' : (product.rating - i > 0 ? '<i class="fas fa-star-half-alt text-amber-400"></i>' :'<i class="far fa-star text-amber-400"></i>') ).join('');
+            
+            const slide = document.createElement('div');
+            slide.className = 'swiper-slide h-auto';
+            slide.innerHTML = `
+                <div class="product-card glass-card overflow-hidden group h-full flex flex-col" data-tilt>
+                    <a href="product-detail.html?id=${product.id}" class="product-link block flex flex-col flex-grow">
+                        <div class="p-4 bg-black/10 flex items-center justify-center h-64" style="transform: translateZ(20px)">
+                            <img src="${product.image}" alt="${product.name}" class="max-w-full max-h-full object-contain group-hover:scale-110 transition-transform duration-500">
+                        </div>
+                        <div class="p-6 flex flex-col flex-grow" style="transform: translateZ(40px)">
+                            <div class="flex justify-between items-start mb-2">
+                              <div>
+                                <p class="text-sm text-amber-400 mb-1 font-semibold">${product.category}</p>
+                                <h4 class="text-xl font-bold text-slate-100 h-16">${product.name}</h4>
+                              </div>
+                              ${product.stock ? '<div class="text-xs bg-green-500/10 text-green-400 font-bold px-2 py-0.5 rounded">موجود</div>' : ''}
+                            </div>
+                            <div class="mb-4">${ratingStars}</div>
+                            <div class="flex justify-between items-center border-t border-slate-700 pt-4 mt-auto">
+                                <span class="text-2xl font-black text-white">${product.price.toLocaleString('fa-IR')} <span class="text-sm font-normal text-slate-400">تومان</span></span>
+                                <button class="add-to-cart-btn bg-slate-700 text-white rounded-full w-10 h-10 flex items-center justify-center hover:bg-amber-400 hover:text-slate-900 transition-colors">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            `;
+            
+            slide.querySelector('.add-to-cart-btn').addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                cart.add(product);
+            });
+
+            wrapper.appendChild(slide);
+        });
+
+        new Swiper('.featured-products-slider', {
+            loop: true,
+            slidesPerView: 1,
+            spaceBetween: 30,
+            autoplay: {
+                delay: 3000,
+                disableOnInteraction: false,
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            breakpoints: {
+                640: { slidesPerView: 2 },
+                768: { slidesPerView: 3 },
+                1280: { slidesPerView: 4 },
+            },
+        });
+        
+        VanillaTilt.init(document.querySelectorAll("[data-tilt]"), { max: 15, speed: 400, glare: true, "max-glare": 0.2 });
+    }
+
+    initFeaturedProductsSlider();
+
+    // --- FAQ Accordion ---
+    document.querySelectorAll('.faq-question').forEach(button => {
+        button.addEventListener('click', () => {
+             const item = button.parentElement;
+            const wasActive = item.classList.contains('active');
+            
+            // Close all items
+            document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+
+            // Toggle the clicked item
+            if (!wasActive) {
+                item.classList.add('active');
+            }
+        });
+    });
+
+    // --- Navbar Scroll Effect ---
+    const header = document.getElementById('main-header');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+            header.classList.add('bg-slate-900/80', 'backdrop-blur-lg', 'shadow-lg');
+            header.classList.remove('py-4');
+            header.classList.add('py-3');
+        } else {
+            header.classList.remove('bg-slate-900/80', 'backdrop-blur-lg', 'shadow-lg');
+            header.classList.remove('py-3');
+            header.classList.add('py-4');
+        }
+    });
+
+    // --- Mobile Menu ---
+    const toggleButton = document.getElementById('mobile-toggle');
+    const closeButton = document.getElementById('mobile-close');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileLinks = document.querySelectorAll('.mobile-link');
+
+    function closeMenu() {
+        document.body.classList.remove('menu-open');
+        setTimeout(() => {
+            mobileMenu.classList.add('hidden');
+        }, 300); // Wait for transition to finish
+    }
+
+    toggleButton.addEventListener('click', (e) => {
+        e.stopPropagation(); // prevent clicks from bubbling up
+        if (document.body.classList.contains('menu-open')) {
+            closeMenu();
+        } else {
+            mobileMenu.classList.remove('hidden');
+            // Timeout to allow the element to be rendered before adding class
+            setTimeout(() => {
+                document.body.classList.add('menu-open');
+            }, 10);
+        }
+    });
+
+    closeButton.addEventListener('click', closeMenu);
+    mobileLinks.forEach(link => {
+        link.addEventListener('click', closeMenu);
+    });
+
+});
+</script>
+
+</body>
+</html>
+

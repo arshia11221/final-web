@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>محصولات - همگام پلاستیک</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com"></script>
+<!-- Font Awesome for Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<!-- Google Fonts (Vazirmatn) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<!-- GSAP Animation Library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<!-- Vanilla Tilt JS for 3D Hover Effect -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
+
+<style>
+body {
+font-family: 'Vazirmatn', sans-serif;
+background-color: #0B1120;
+color: #cbd5e1;
+}
+.glass-card {
+background: rgba(30, 41, 59, 0.5);
+backdrop-filter: blur(12px);
+border: 1px solid rgba(51, 65, 85, 0.5);
+border-radius: 1rem;
+transform-style: preserve-3d;
+}
+.btn-primary {
+background: linear-gradient(to right, #FBBF24, #F59E0B);
+color: #1e2b3b;
+font-weight: 700;
+padding: 0.75rem 2.5rem;
+border-radius: 9999px;
+transition: all 0.3s ease;
+}
+.btn-primary:hover {
+transform: scale(1.05);
+}
+/* --- Mobile Menu Fixes --- */
+body.menu-open { overflow: hidden; }
+body.menu-open #mobile-menu { opacity: 1; pointer-events: auto; }
+body.menu-open #logo-link, body.menu-open #cart-link, body.menu-open #user-display { opacity: 0; pointer-events: none; }
+#logo-link, #cart-link, #user-display { transition: opacity 0.3s ease-in-out; }
+body.menu-open #mobile-toggle .fa-bars { display: none; }
+body.menu-open #mobile-toggle .fa-times { display: block; }
+.category-btn.active {
+background-color: #334155; /* slate-700 */
+color: #f1f5f9; /* slate-100 */
+font-weight: 600;
+}
+.cart-notification {
+position: fixed; bottom: 20px; left: 20px; z-index: 100;
+background-color: #1e293b; color: white; padding: 1rem 1.5rem;
+border-radius: 0.5rem; display: flex; align-items: center; gap: 0.75rem;
+box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.5);
+transform: translateY(200%); opacity: 0;
+transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+.cart-notification.show {
+transform: translateY(0); opacity: 1;
+}
+</style>
+</head>
+<body class="bg-slate-900">
+
+<!-- Header -->
+<header id="main-header" class="sticky top-0 left-0 right-0 z-30 transition-all duration-300 bg-slate-900/80 backdrop-blur-lg shadow-lg py-3">
+<nav class="container mx-auto px-4 sm:px-6 flex justify-between items-center">
+<a href="index.html" id="logo-link" class="w-24 sm:w-28 md:w-32 transition-opacity duration-300">
+<img id="logo-img" src="image/IMG_9482-removebg-preview.png" alt="لوگو شرکت">
+</a>
+<ul class="hidden lg:flex items-center space-x-8 space-x-reverse text-slate-200 font-semibold">
+<li><a href="index.html" class="hover:text-amber-300 transition-colors">خانه</a></li>
+<li><a href="products.html" class="hover:text-amber-300 transition-colors text-amber-300 font-bold">محصولات</a></li>
+<li><a href="index.html#about" class="hover:text-amber-300 transition-colors">درباره ما</a></li>
+<li><a href="index.html#technology" class="hover:text-amber-300 transition-colors">تکنولوژی</a></li>
+<li><a href="index.html#contact" class="hover:text-amber-300 transition-colors">تماس با ما</a></li>
+</ul>
+<!-- ✅ FIX STARTS HERE -->
+<div class="flex items-center space-x-4 lg:space-x-6 space-x-reverse">
+<a href="cart.html" id="cart-link" class="text-white text-xl hover:text-amber-300 transition-colors relative">
+<i class="fas fa-shopping-cart"></i>
+<span id="cart-counter" class="absolute -top-2 -right-3 bg-yellow-400 text-slate-900 text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold" style="display: none;">0</span>
+</a>
+<div id="user-display">
+<a href="login.html" id="login-btn" class="btn-primary !py-1.5 !px-4 sm:!py-2 sm:!px-6 text-sm">ورود</a>
+</div>
+<button id="mobile-toggle" class="lg:hidden text-white text-2xl z-50">
+<i class="fas fa-bars block"></i>
+<i class="fas fa-times hidden"></i>
+</button>
+</div>
+<!-- ✅ FIX ENDS HERE -->
+</nav>
+</header>
+<!-- Mobile Menu -->
+<div id="mobile-menu" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-40 p-8 text-white text-center transition-opacity duration-300 ease-in-out opacity-0">
+<button id="mobile-close" class="absolute top-6 right-6 text-3xl">&times;</button>
+<ul class="flex flex-col space-y-8 mt-24 text-2xl">
+<li><a href="index.html" class="mobile-link">خانه</a></li>
+<li><a href="products.html" class="mobile-link">محصولات</a></li>
+<li><a href="index.html#about" class="mobile-link">درباره ما</a></li>
+<li><a href="index.html#technology" class="mobile-link">تکنولوژی</a></li>
+<li><a href="index.html#contact" class="mobile-link">تماس با ما</a></li>
+</ul>
+</div>
+
+<main>
+<!-- Hero Section -->
+<section class="relative py-24 md:py-32 flex items-center justify-center text-white overflow-hidden bg-slate-800">
+<div class="absolute inset-0 bg-cover bg-center opacity-10" style="background-image: url('https://images.pexels.com/photos/414837/pexels-photo-414837.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');"></div>
+<div class="relative z-10 text-center px-6">
+<h1 class="text-4xl md:text-6xl font-black leading-tight mb-4">گنجینه قطعات ما</h1>
+<p class="text-lg md:text-xl text-slate-300 max-w-2xl mx-auto">
+هر قطعه، داستانی از کیفیت و نوآوری. محصولات ما را برای پروژه‌ی بعدی خود کشف کنید.
+</p>
+</div>
+</section>
+
+<!-- Products Layout -->
+<div class="container mx-auto px-6 py-16">
+<div class="grid lg:grid-cols-4 gap-8 items-start">
+<!-- Filters Sidebar -->
+<aside class="lg:col-span-1 glass-card p-6 lg:sticky lg:top-28">
+<h3 class="text-2xl font-bold text-white mb-6 border-b border-slate-700 pb-4">فیلترها</h3>
+<div class="mb-6">
+<label for="search" class="block text-lg font-semibold text-slate-200 mb-2">جستجو</label>
+<div class="relative">
+<input type="text" id="search-filter" placeholder="نام محصول..." class="w-full bg-slate-700/50 border border-slate-600 rounded-lg py-2 px-4 text-white placeholder-slate-400 focus:ring-amber-400 focus:border-amber-400">
+<i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+</div>
+</div>
+
+<div class="mb-6">
+<label class="block text-lg font-semibold text-slate-200 mb-3">دسته‌بندی‌ها</label>
+<div id="category-filters" class="space-y-2">
+<button class="category-btn w-full text-right p-2 rounded-md hover:bg-slate-700 transition-colors active" data-category="all">همه دسته‌ها</button>
+<button class="category-btn w-full text-right p-2 rounded-md hover:bg-slate-700 transition-colors" data-category="خار">خار</button>
+<button class="category-btn w-full text-right p-2 rounded-md hover:bg-slate-700 transition-colors" data-category="نگهدارنده">نگهدارنده</button>
+<button class="category-btn w-full text-right p-2 rounded-md hover:bg-slate-700 transition-colors" data-category="دستگیره">دستگیره</button>
+<button class="category-btn w-full text-right p-2 rounded-md hover:bg-slate-700 transition-colors" data-category="لوله">لوله</button>
+</div>
+</div>
+
+<div>
+<label for="price-range" class="block text-lg font-semibold text-slate-200 mb-2">محدوده قیمت</label>
+<input type="range" id="price-filter" min="0" max="500000" step="1000" value="500000" class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer">
+<div class="flex justify-between text-sm text-slate-400 mt-2">
+<span>۰ تومان</span>
+<span id="price-value">۵۰۰,۰۰۰ تومان</span>
+</div>
+</div>
+</aside>
+
+<!-- Products Grid -->
+<div class="lg:col-span-3">
+<div id="products-grid" class="grid sm:grid-cols-2 xl:grid-cols-3 gap-8">
+<!-- Product cards will be injected here by JavaScript -->
+</div>
+<p id="no-results" class="hidden text-center text-xl py-20">محصولی با این مشخصات یافت نشد.</p>
+</div>
+</div>
+</div>
+</main>
+<footer id="contact" class="bg-slate-900 border-t border-slate-800 text-slate-400">
+<!-- Footer content -->
+</footer>
+<!-- Cart Notification -->
+<div id="cart-notification" class="cart-notification">
+<i class="fas fa-check-circle text-green-400 text-xl"></i>
+<span>محصول به سبد خرید اضافه شد!</span>
+</div>
+
+<script src="myjs.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+// --- Product Data ---
+const allProducts = [
+{
+id: 'havakesh-nisan',
+name: "مجموعه هواکش موتور نیسان انژکتوری پلیمری",
+price: 397000,
+category: 'لوله',
+image: 'image/WhatsApp_Image_2025-09-02_at_10.26.49-removebg-preview.png',
+rating: 5,
+stock: true,
+description: "این مجموعه هواکش کامل، شامل لوله‌ها و اتصالات لازم برای سیستم تنفس موتور نیسان انژکتوری است. ساخته شده از پلیمر مقاوم به حرارت و فشار، که جایگزینی عالی برای قطعات فلزی قدیمی است و به بهبود جریان هوا کمک می‌کند."
+},
+{
+id: 'loole-peikan',
+name: 'لوله خرطومی هواکش پیکان (آردی) لاستیکی',
+price: 99000,
+category: 'لوله',
+image: 'image/WhatsApp_Image_2025-08-31_at_08.49.42-removebg-preview.png',
+rating: 4,
+stock: true,
+description: "شیلنگ یا لوله خرطومی هواکش پیکان یکی از قطعات مهم در سیستم تهویه و تنفس موتور خودرو پیکان است. این لوله از جنس لاستیک انعطاف‌پذیر ساخته شده و هوای تمیز را از فیلتر به موتور منتقل می‌کند، از نوسانات هوا جلوگیری کرده و صدای مکش را کاهش می‌دهد."
+},
+{
+id: 'clip-ayegh-shahin',
+name: 'کلیپ عایق درب موتور شاهین (بسته ۱۰ عددی)',
+price: 59000,
+category: 'خار',
+image: 'image/Gemini_Generated_Image_32k0sj32k0sj32k0-removebg-preview.png',
+rating: 4.5,
+stock: true,
+description: "خار یا بست نمد کاپوت، یک گیره پلاستیکی مقاوم به حرارت است که نمد (عایق صوتی-حرارتی) را به صورت محکم به بدنه داخلی کاپوت متصل می‌کند. این کار از لرزش و صدای اضافی نمد جلوگیری کرده و آن را در جای خود ثابت نگه می‌دارد. تعویض خارهای شکسته یا فرسوده برای حفظ کارایی عایق ضروری است."
+},
+{
+id: 'khar-shahin',
+name: 'خار رودری فوم‌دار شاهین (بسته ۱۰ عددی)',
+price: 39000,
+category: 'خار',
+image: 'image/IMG_9230-removebg-preview.png',
+rating: 5,
+stock: true,
+description: "خار رودری فوم‌دار شاهین یک قطعه پلاستیکی کوچک است که برای اتصال و تثبیت رودری (تودری) به بدنه استفاده می‌شود. این خارها با داشتن فوم داخلی، علاوه بر ایجاد اتصال محکم، به کاهش صداهای مزاحم و جلوگیری از لرزش‌های اضافی درب کمک می‌کنند. نصب صحیح این خارها باعث می‌شود رودری به‌طور محکم و بدون لرزش روی درب قرار گیرد."
+},
+{
+id: 'bast-radiator-pride',
+name: 'براکت (بست نگهدارنده) بالا رادیاتور پراید',
+price: 39000,
+category: 'نگهدارنده',
+image: 'image/IMG_9229-removebg-preview.png',
+rating: 4.5,
+stock: true,
+description: "براکت نگهدارنده رادیاتور پراید یک قطعه کوچک ولی حیاتی است که وظیفه نگه داشتن رادیاتور در جای خودش را دارد. این قطعه از لرزش بیش از حد رادیاتور جلوگیری کرده و به عملکرد صحیح سیستم خنک‌کاری موتور کمک می‌کند. خرید براکت باکیفیت باعث افزایش عمر رادیاتور و جلوگیری از خرابی‌های بزرگ‌تر می‌شود."
+},
+{
+id: 'khar-shishe-shoor',
+name: "خار نگهدارنده شیلنگ شیشه شور (بسته ۴ عددی)",
+price: 24000,
+category: 'خار',
+image: 'image/WhatsApp Image 2025-08-31 at 10.03.02.png',
+rating: 4.5,
+stock: true,
+description: "این خار پلاستیکی کوچک برای ثابت نگه داشتن شیلنگ شیشه‌شور در بدنه خودرو طراحی شده است. این خارها در مسیر شیلنگ، معمولاً زیر سینی جلو یا اطراف موتور نصب می‌شوند و از حرکت یا آسیب دیدن شیلنگ جلوگیری می‌کنند. مناسب برای خودروهایی مانند پراید و تیبا."
+},
+{
+id: 'loole-havakesh-jac',
+name: 'لوله هواکش متصل به دیاق جلو JAC J4',
+price: 270000,
+category: 'لوله',
+image: 'image/IMG_9228-removebg-preview.png',
+rating: 5,
+stock: true,
+description: "این لوله پلاستیکی با طراحی خمیده، هوا را از جلو (معمولاً نزدیک سپر) به درون سیستم هوادهی موتور هدایت می‌کند. نقش اصلی آن تأمین هوای تازه و خنک برای بهبود عملکرد موتور و جلوگیری از ورود آب و گردوغبار به مسیر هوا است."
+},
+{
+id: 'dastgire-pride-felezi',
+name: "دستگیره داخلی پراید (زبانه فلزی) مشکی",
+price: 45000,
+category: 'دستگیره',
+image: 'image/Screenshot 2025-10-08 at 2.47.33 PM.png',
+rating: 4,
+stock: true,
+description: "این دستگیره با زبانه فلزی، دوام و مقاومت بالایی در برابر شکستگی دارد و جایگزینی مطمئن برای دستگیره‌های فرسوده یا شکسته درب پراید است."
+},
+{
+id: 'dastgire-pride-polymeri-toosi',
+name: 'دستگیره داخلی پراید (زبانه پلیمری) طوسی',
+price: 12000,
+category: 'دستگیره',
+image: 'image/WhatsApp Image 2025-09-02 at 09.53.14.png',
+rating: 4,
+stock: true,
+description: "این دستگیره با زبانه پلیمری تقویت‌شده، گزینه‌ای اقتصادی و باکیفیت برای تعویض دستگیره‌های داخلی خودروی پراید با تریم داخلی طوسی است."
+},
+{
+id: 'dastgire-pride-polymeri-toosi-sir',
+name: "دستگیره داخلی پراید (زبانه پلیمری) طوسی سیر",
+price: 12000,
+category: 'دستگیره',
+image: 'image/Untitled 2.png',
+rating: 4,
+stock: true,
+description: "این دستگیره با زبانه پلیمری تقویت‌شده، گزینه‌ای اقتصادی و باکیفیت برای تعویض دستگیره‌های داخلی خودروی پراید با تریم داخلی طوسی تیره است."
+},
+{
+id: 'dastgire-tiba-toosi',
+name: 'دستگیره داخلی تیبا طوسی',
+price: 25000,
+category: 'دستگیره',
+image: 'image/WhatsApp Image 2025-09-02 at 09.59.00.png',
+rating: 4,
+stock: true,
+description: "دستگیره داخلی با کیفیت بالا، طراحی شده برای خودروی تیبا با رنگ طوسی که کاملاً با تریم داخلی خودرو هماهنگ است."
+},
+{
+id: 'dastgire-tiba-toosi-sir',
+name: 'دستگیره داخلی تیبا طوسی سیر',
+price: 25000,
+category: 'دستگیره',
+image: 'image/Untitled 3.png',
+rating: 5,
+stock: false,
+description: "دستگیره داخلی با کیفیت بالا، طراحی شده برای خودروی تیبا با رنگ طوسی تیره که کاملاً با تریم داخلی خودرو هماهنگ است."
+},
+{
+id: 'bast-radiator-saina',
+name: "براکت نگهدارنده رادیاتور ساینا و کوییک",
+price: 33500,
+category: 'نگهدارنده',
+image: 'image/WhatsApp_Image_2025-09-02_at_10.06.12-removebg-preview.png',
+rating: 4.5,
+stock: true,
+description: "این براکت برای نگهداری مطمئن رادیاتور در خودروهای ساینا و کوییک طراحی شده و از لرزش و آسیب به سیستم خنک‌کننده جلوگیری می‌کند."
+},
+];
+
+const productsGrid = document.getElementById('products-grid');
+const noResults = document.getElementById('no-results');
+const cart = window.App.cart;
+function renderProducts(products) {
+productsGrid.innerHTML = '';
+if (products.length === 0) {
+noResults.classList.remove('hidden');
+return;
+}
+noResults.classList.add('hidden');
+
+products.forEach((product, index) => {
+const ratingStars = Array(5).fill(0).map((_, i) => {
+if (i < Math.floor(product.rating)) return '<i class="fas fa-star"></i>';
+if (i < product.rating) return '<i class="fas fa-star-half-alt"></i>';
+return '<i class="far fa-star"></i>';
+}).join('');
+
+const productCard = document.createElement('div');
+productCard.className = 'product-card gsap-reveal glass-card overflow-hidden group';
+productCard.setAttribute('data-tilt', '');
+productCard.dataset.delay = (index % 3) * 0.1;
+
+productCard.innerHTML = `
+<a href="product-detail.html?${new URLSearchParams(product).toString()}" class="product-link block">
+<div class="p-4 bg-black/10 flex items-center justify-center h-64" style="transform: translateZ(20px)">
+<img src="${product.image}" alt="${product.name}" class="max-w-full max-h-full object-contain group-hover:scale-110 transition-transform duration-500">
+</div>
+<div class="p-6" style="transform: translateZ(40px)">
+<div class="flex justify-between items-start mb-2">
+<div>
+<p class="text-sm text-amber-400 mb-1 font-semibold">${product.category}</p>
+<h4 class="text-xl font-bold text-slate-100 h-16">${product.name}</h4>
+</div>
+${product.stock
+? '<div class="text-xs bg-green-500/10 text-green-400 font-bold px-2 py-0.5 rounded">موجود</div>'
+: '<div class="text-xs bg-red-500/10 text-red-400 font-bold px-2 py-0.5 rounded">ناموجود</div>'
+}
+</div>
+<div class="text-amber-400 mb-4">${ratingStars}</div>
+<div class="flex justify-between items-center border-t border-slate-700 pt-4">
+<span class="text-2xl font-black text-white">${product.price.toLocaleString('fa-IR')} <span class="text-sm font-normal text-slate-400">تومان</span></span>
+<button class="add-to-cart-btn bg-slate-700 text-white rounded-full w-10 h-10 flex items-center justify-center hover:bg-amber-400 hover:text-slate-900 transition-colors ${!product.stock ? 'opacity-50 cursor-not-allowed' : ''}" ${!product.stock ? 'disabled' : ''}>
+<i class="fas fa-plus"></i>
+</button>
+</div>
+</div>
+</a>
+`;
+
+productCard.querySelector('.add-to-cart-btn').addEventListener('click', (e) => {
+e.preventDefault();
+e.stopPropagation();
+cart.add(product);
+});
+
+productsGrid.appendChild(productCard);
+});
+gsap.utils.toArray('.gsap-reveal').forEach(el => {
+gsap.fromTo(el, { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 0.8, scrollTrigger: { trigger: el, start: "top 90%", toggleActions: "play none none none" }, delay: el.dataset.delay || 0 });
+});
+VanillaTilt.init(document.querySelectorAll("[data-tilt]"), { max: 15, speed: 400, glare: true, "max-glare": 0.2 });
+}
+
+const searchFilter = document.getElementById('search-filter');
+const categoryFilters = document.getElementById('category-filters');
+const priceFilter = document.getElementById('price-filter');
+const priceValue = document.getElementById('price-value');
+let currentFilters = { searchTerm: '', category: 'all', maxPrice: 500000 };
+
+function applyFilters() {
+let filtered = allProducts;
+if (currentFilters.searchTerm) filtered = filtered.filter(p => p.name.includes(currentFilters.searchTerm));
+if (currentFilters.category !== 'all') filtered = filtered.filter(p => p.category === currentFilters.category);
+filtered = filtered.filter(p => p.price <= currentFilters.maxPrice);
+renderProducts(filtered);
+}
+
+searchFilter.addEventListener('input', (e) => { currentFilters.searchTerm = e.target.value; applyFilters(); });
+categoryFilters.addEventListener('click', (e) => {
+if (e.target.tagName === 'BUTTON') {
+categoryFilters.querySelector('.active').classList.remove('active');
+e.target.classList.add('active');
+currentFilters.category = e.target.dataset.category;
+applyFilters();
+}
+});
+priceFilter.addEventListener('input', (e) => {
+currentFilters.maxPrice = parseInt(e.target.value);
+priceValue.textContent = `${currentFilters.maxPrice.toLocaleString('fa-IR')} تومان`;
+applyFilters();
+});
+
+renderProducts(allProducts);
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,33 @@
+services:
+  app:
+<<<<<<< HEAD
+    # Build Context را روی دایرکتوری فعلی (نقطه) تنظیم می‌کند
+    build:
+      context: . 
+      dockerfile: Dockerfile
+    container_name: hamgamplastic-app
+    ports:
+      - "3001:3000"
+    volumes:
+      # ماپ کردن دایرکتوری فعلی Back-end به WORKDIR کانتینر
+=======
+    build: .
+    container_name: hamgamplastic-app
+    ports:
+      - "3000:3000"
+    volumes:
+>>>>>>> d2d7746b8d7f2b7e63018aff38b31dc18fe3969a
+      - .:/usr/src/app
+    depends_on:
+      - mongodb
+
+  mongodb:
+    image: mongo:6.0
+    container_name: hamgamplastic-mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:

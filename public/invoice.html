@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>فاکتور سفارش - همگام پلاستیک</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Font Awesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Google Fonts (Vazirmatn) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Vazirmatn', sans-serif;
+      background-color: #0B1120;
+      color: #cbd5e1;
+    }
+    .glass-card {
+        background: rgba(30, 41, 59, 0.5);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(51, 65, 85, 0.5);
+        border-radius: 1rem;
+    }
+    .btn-primary {
+        background: linear-gradient(to right, #FBBF24, #F59E0B);
+        color: #1e2b3b;
+        font-weight: 700;
+        padding: 0.75rem 2.5rem;
+        border-radius: 9999px;
+        transition: all 0.3s ease;
+    }
+    .btn-primary:hover {
+        transform: scale(1.05);
+    }
+    /* Print Styles */
+    @media print {
+        body {
+            background-color: #ffffff;
+            color: #000000;
+        }
+        header, footer, .no-print {
+            display: none;
+        }
+        main {
+            padding: 0;
+        }
+        .invoice-container {
+            box-shadow: none;
+            border: 1px solid #ccc;
+            background: #ffffff;
+            color: #000000;
+        }
+        .invoice-container * {
+            color: #000000 !important;
+        }
+        .glass-card {
+            background: transparent;
+            backdrop-filter: none;
+            border: none;
+        }
+    }
+  </style>
+</head>
+<body class="bg-slate-900">
+
+  <!-- Header -->
+  <header id="main-header" class="sticky top-0 left-0 right-0 z-30 transition-all duration-300 bg-slate-900/80 backdrop-blur-lg shadow-lg py-3 no-print">
+   <nav class="container mx-auto px-4 sm:px-6 flex justify-between items-center">
+    <a href="index.html" id="logo-link" class="w-24 sm:w-28 md:w-32 transition-opacity duration-300">
+      <img id="logo-img" src="image/IMG_9482-removebg-preview.png" alt="لوگو شرکت">
+    </a>
+    <div class="flex items-center space-x-4 lg:space-x-6 space-x-reverse">
+        <a href="products.html" class="btn-primary !py-1.5 !px-4 sm:!py-2 sm:!px-6 text-sm">بازگشت به فروشگاه</a>
+    </div>
+  </nav>
+</header>
+  
+  <main class="py-16">
+    <div class="container mx-auto px-6">
+        <div id="invoice-container" class="invoice-container max-w-4xl mx-auto glass-card overflow-hidden">
+            <!-- Header -->
+            <div class="p-8 bg-slate-800/50 flex justify-between items-center">
+                <div>
+                    <h1 class="text-3xl font-bold text-white">فاکتور سفارش</h1>
+                    <p id="invoice-order-id" class="text-slate-400">شماره سفارش: ...</p>
+                </div>
+                <div class="text-left">
+                    <img src="image/IMG_9482-removebg-preview.png" alt="لوگو" class="w-24">
+                </div>
+            </div>
+
+            <!-- Details -->
+            <div class="p-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-6 border-b border-slate-700">
+                <div>
+                    <h2 class="text-sm font-semibold text-slate-400 mb-2">اطلاعات مشتری</h2>
+                    <p id="customer-name" class="font-bold text-white">...</p>
+                    <p id="customer-phone" class="text-slate-300">...</p>
+                </div>
+                <div>
+                    <h2 class="text-sm font-semibold text-slate-400 mb-2">آدرس ارسال</h2>
+                    <p id="customer-address" class="text-slate-300 text-sm">...</p>
+                </div>
+                <div>
+                    <h2 class="text-sm font-semibold text-slate-400 mb-2">اطلاعات سفارش</h2>
+                    <p class="text-slate-300"><strong>تاریخ:</strong> <span id="invoice-date">...</span></p>
+                    <p class="text-slate-300"><strong>وضعیت پرداخت:</strong> <span id="invoice-payment-status">...</span></p>
+                    <p class="text-slate-300"><strong>کد رهگیری:</strong> <span id="invoice-payment-ref">...</span></p>
+                </div>
+            </div>
+
+            <!-- Items Table -->
+            <div class="p-8">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-right">
+                        <thead>
+                            <tr class="border-b border-slate-700">
+                                <th class="py-3 pr-3 font-semibold text-white">محصول</th>
+                                <th class="py-3 text-center font-semibold text-white">تعداد</th>
+                                <th class="py-3 text-center font-semibold text-white">قیمت واحد</th>
+                                <th class="py-3 pl-3 text-left font-semibold text-white">جمع کل</th>
+                            </tr>
+                        </thead>
+                        <tbody id="invoice-product-list">
+                           <!-- Items will be injected here -->
+                           <tr><td colspan="4" class="text-center py-8">در حال بارگذاری...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Totals -->
+            <div class="p-8 bg-slate-800/50 flex justify-end">
+                <div class="w-full max-w-sm space-y-3">
+                    <div class="flex justify-between text-slate-300">
+                        <span>جمع محصولات:</span>
+                        <span id="invoice-subtotal">۰ تومان</span>
+                    </div>
+                    <div class="flex justify-between text-slate-300">
+                        <span>هزینه ارسال:</span>
+                        <span id="invoice-shipping">۰ تومان</span>
+                    </div>
+                     <div class="flex justify-between font-bold text-white text-xl border-t border-slate-600 pt-3 mt-3">
+                        <span>مبلغ نهایی:</span>
+                        <span id="invoice-total">۰ تومان</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-8 no-print">
+            <button onclick="window.print()" class="btn-primary">
+                <i class="fas fa-print mr-2"></i>چاپ فاکتور
+            </button>
+        </div>
+    </div>
+  </main>
+  
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const API_BASE_URL = ''; // Relative path
+
+    function formatPrice(price) {
+        return (price || 0).toLocaleString('fa-IR') + ' تومان';
+    }
+
+    const loadInvoice = async () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const orderDbId = urlParams.get('id');
+
+        const container = document.getElementById('invoice-container');
+        if (!orderDbId) {
+            container.innerHTML = '<p class="text-center text-red-400 p-8">خطا: شناسه سفارش یافت نشد.</p>';
+            return;
+        }
+
+        try {
+            const response = await fetch(`${API_BASE_URL}/api/orders/${orderDbId}`);
+            if (!response.ok) {
+                const errData = await response.json();
+                throw new Error(errData.message || 'سفارش یافت نشد.');
+            }
+            const order = await response.json();
+
+            // Populate data
+            document.getElementById('invoice-order-id').textContent = `شماره سفارش: ${order.orderId}`;
+            document.getElementById('customer-name').textContent = `${order.shippingInfo.firstName} ${order.shippingInfo.lastName}`;
+            document.getElementById('customer-phone').textContent = order.shippingInfo.phone;
+            document.getElementById('customer-address').textContent = `${order.shippingInfo.address}, ${order.shippingInfo.city}, ${order.shippingInfo.province}`;
+            document.getElementById('invoice-date').textContent = new Date(order.createdAt).toLocaleDateString('fa-IR');
+            document.getElementById('invoice-payment-status').textContent = order.paymentStatus;
+            document.getElementById('invoice-payment-ref').textContent = order.paymentRefId || '-';
+
+            const productListBody = document.getElementById('invoice-product-list');
+            productListBody.innerHTML = order.products.map(item => `
+                <tr class="border-b border-slate-800">
+                    <td class="py-4 pr-3">${item.name}</td>
+                    <td class="py-4 text-center">${item.quantity}</td>
+                    <td class="py-4 text-center">${formatPrice(item.price)}</td>
+                    <td class="py-4 pl-3 text-left font-semibold">${formatPrice(item.price * item.quantity)}</td>
+                </tr>
+            `).join('');
+
+            document.getElementById('invoice-subtotal').textContent = formatPrice(order.subtotal);
+            document.getElementById('invoice-shipping').textContent = formatPrice(order.shippingCost);
+            document.getElementById('invoice-total').textContent = formatPrice(order.amount);
+
+        } catch (error) {
+            container.innerHTML = `<p class="text-center text-red-400 p-8">خطا در بارگیری فاکتور: ${error.message}</p>`;
+        }
+    };
+
+    loadInvoice();
+});
+</script>
+
+</body>
+</html>
